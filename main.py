@@ -1,63 +1,10 @@
-'''
-import argparse
-from src.train_defect import train
-from src.evaluate import evaluate
-
-
-def main():
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--category", type=str, required=True,
-                        choices=["bottle", "metal_nut", "tile"])
-    parser.add_argument("--mode", type=str, required=True,
-                        choices=["train", "evaluate"])
-
-    args = parser.parse_args()
-
-    if args.mode == "train":
-        train(args.category)
-
-    elif args.mode == "evaluate":
-        evaluate(args.category)
-
-
-if __name__ == "__main__":
-    main()
-
-'''
-'''
-import argparse
-from src.train_feature_model import train_feature_model
-from src.evaluate_feature_model import evaluate_feature_model, predict_single_image
-
-
-def main():
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--category", type=str, required=True,
-                        choices=["bottle", "metal_nut", "tile"])
-    parser.add_argument("--mode", type=str, required=True,
-                        choices=["feature_train", "feature_evaluate"])
-
-    args = parser.parse_args()
-
-    if args.mode == "feature_train":
-        train_feature_model(args.category)
-
-    elif args.mode == "feature_evaluate":
-        evaluate_feature_model(args.category)
-
-
-if __name__ == "__main__":
-    main()
-
-'''
-
 import argparse
 from src.train_feature_model import train_feature_model
 from src.evaluate_feature_model import (
     evaluate_feature_model,
     predict_single_image
 )
-
+from src.visualize_patch_score import visualize_image_score
 
 def main():
     parser = argparse.ArgumentParser(
@@ -76,7 +23,7 @@ def main():
         "--mode",
         type=str,
         required=True,
-        choices=["feature_train", "feature_evaluate", "feature_predict"],
+        choices=["feature_train", "feature_evaluate", "feature_predict", "feature_visualize"],
         help="Operation mode"
     )
 
@@ -103,6 +50,13 @@ def main():
         else:
             print(f"\nPredicting image: {args.image}")
             predict_single_image(args.category, args.image)
+
+    elif args.mode == "feature_visualize":
+        if args.image is None:
+            print("Error: Please provide --image path for visualization mode.")
+        else:
+            print(f"\nVisualizing image: {args.image}")
+            visualize_image_score(args.category, args.image)
 
 
 if __name__ == "__main__":
