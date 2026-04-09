@@ -28,7 +28,7 @@ def train_feature_model(category):
         image = dip_preprocess(image)
         image = extract_largest_roi(image)
         image = pad_to_square(image)
-        image = cv2.resize(image, (IMAGE_SIZE, IMAGE_SIZE))
+        image = cv2.resize(image, (IMAGE_SIZE, IMAGE_SIZE)) 
 
         image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
         image = image.astype(np.float32) / 255.0
